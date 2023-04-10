@@ -16,8 +16,8 @@ desired_caps = {
     "platformName": "Android",
     "appPackage": "com.bytecaretech.merokarobar",
     "appActivity": "com.bytecaretech.merokarobar.MainActivity",
-    "platformVersion": "11"
-    # "noReset": True
+    "platformVersion": "11",
+    "noReset": True
     # "app": "C:/Users/acer/Downloads/Karobar.apk"
     # "automationName": "UiAutomator2"
 }
@@ -35,13 +35,13 @@ floating_button.click()
 add_party_floating = driver.find_element(By.XPATH, '//android.view.View[@content-desc="New Party"]')
 add_party_floating.click()
 time.sleep(2)
-ok_contacts = driver.find_element(By.XPATH, '//android.widget.Button[@content-desc="OK"]')
 
-ok_contacts.click()
-
-allow_permission = driver.find_element(By.ID, 'com.android.permissioncontroller:id/permission_allow_button')
-
-allow_permission.click()
+# ok_contacts = driver.find_element(By.XPATH, '//android.widget.Button[@content-desc="OK"]')
+# ok_contacts.click()
+#
+# allow_permission = driver.find_element(By.ID, 'com.android.permissioncontroller:id/permission_allow_button')
+#
+# allow_permission.click()
 time.sleep(2)
 
 add_partyname = driver.find_element(By.XPATH, '//android.view.View[@content-desc="PARTY INFORMATION Party Name Phone '

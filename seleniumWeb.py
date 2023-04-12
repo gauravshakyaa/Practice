@@ -33,5 +33,4 @@ class weblogin:
 
 
 driver_karobar = weblogin()
-driver_karobar.login("9222222222")
 

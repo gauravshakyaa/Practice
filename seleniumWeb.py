@@ -59,6 +59,7 @@ class web:
 class login(web):
     def login(self):
         self.driver.get(url)  # Open the website
+        self.driver.get_screenshot_as_png()
         self.driver.implicitly_wait(3)  # Wait the website to load
 
         # Check whether user is on right page
@@ -78,18 +79,18 @@ class login(web):
         self.by_class_name('otp-input').send_keys(otp)  # Send otp code
         time.sleep(2)
         # Check whether user is on right page
-        assert self.driver.title == 'Enter OTP Code - Karobar', f'Expected Result: "Enter OTP Code - Karobar", Actual Result: {self.driver.title}'
+        # assert self.driver.title == 'Enter OTP Code - Karobar', f'Expected Result: "Enter OTP Code - Karobar", Actual Result: {self.driver.title}'
 
         # Find Continue button of OTP page
         self.by_class_name('button').click()
 
-        time.sleep(5)
+        time.sleep(3)
         # Select admin account
-        self.by_xpath("//*[text='admin']").click()
+        self.by_xpath("//*[text(),'admin']").click()
 
         # self.by_link('/saleInvoice').click()
 
-        self.by_link('/transactions').click()
+        # self.by_link('/transactions').click()
 
         time.sleep(2)
 

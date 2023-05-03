@@ -1,5 +1,6 @@
 import os
 import time
+import requests as requests
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -11,31 +12,30 @@ from selenium.webdriver.support.wait import WebDriverWait
 serv_obj = Service("D:\Drivers\chromedriver_win32\chromedriver.exe")
 driver = webdriver.Chrome(service=serv_obj)
 
-driver.get('https://www.techwithtim.net/')
-print(driver.title)
+# driver.get('https://demo.nopcommerce.com/')
+driver.get('http://www.deadlinkcity.com/')
+
 driver.maximize_window()
 
-search = driver.find_element(By.NAME, 's')
-search.send_keys('test')
-search.send_keys(Keys.RETURN)
+# driver.find_element(By.LINK_TEXT, "Register")
+links = driver.find_elements(By.TAG_NAME, "a")
+print(len(links))
+count = 0
 
-element = By.ID, 'main'
+for link in links:
+    url = link.get_attribute('href')
+    try:
+        res = requests.head(url)
+    except:
+        var = None
 
-try:
-    main = WebDriverWait(driver, 10).until(EC.visibility_of_element_located(element))
-    articles = driver.find_elements(By.TAG_NAME, 'article')
+    if res.status_code >= 400:
+        print(url, '-is broken link')
+        count += 1
+    else:
+        print(url, '-is valid link')
 
-    for article in articles:
-        header = article.find_element(By.CLASS_NAME, 'entry-summary')
-        print(header.text)
-
-
-
-finally:
-    driver.quit()
-
-
-
-time.sleep(5)
+print(count)
+time.sleep(2)
 
 driver.quit()

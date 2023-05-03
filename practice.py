@@ -1,113 +1,56 @@
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+
 import time
 
-from selenium.webdriver import ActionChains
-from selenium.webdriver.common.actions import interaction
-from selenium.webdriver.common.actions.action_builder import ActionBuilder
-from selenium.webdriver.common.actions.pointer_input import PointerInput
-from appium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from appium.webdriver.common.touch_action import TouchAction
-from selenium.webdriver.support import expected_conditions as EC
 
-desired_caps = {
-    # "deviceName": "RF8M703BZXW",  # device name for s10 phone
-    "deviceName": "A00000K580160801364",  # device name for nokia phone
-    "platformName": "Android",
-    "appPackage": "com.bytecaretech.merokarobar",
-    "appActivity": "com.bytecaretech.merokarobar.MainActivity",
-    "platformVersion": "11",
-    "noReset": True
-    # "app": "C:/Users/acer/Downloads/Karobar.apk"
-    # "automationName": "UiAutomator2"
-}
-driver = webdriver.Remote('http://localhost:4723/wd/hub', desired_caps)
+serv_obj = Service("D:\Drivers\chromedriver_win32\chromedriver.exe")
 
-time.sleep(3)
+driver = webdriver.Chrome(service=serv_obj)
 
-floating_button = driver.find_element(By.XPATH, '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout'
-                                                '/android.widget.FrameLayout/android.widget.FrameLayout/android'
-                                                '.widget.FrameLayout/android.view.View/android.view.View/android.view'
-                                                '.View/android.view.View/android.view.View[3]/android.widget.Button')
+driver.get("https://web.karobarapp.com/login")
+driver.maximize_window()
 
-floating_button.click()
+driver.find_element(By.XPATH, '//input[@type="text" and @placeholder="Enter your Phone Number" and '
+                              '@class="input"]').send_keys('9222222222')
+time.sleep(2)
+# Find the submit button locator and click it
+# driver.find_element(By.CLASS_NAME, '.button').click()
+driver.find_element(By.XPATH, '//*[@id="app"]/div/section/div[2]/div/div[1]/div/button').click()
+time.sleep(2)
+driver.find_element(By.CLASS_NAME, 'otp-input').send_keys('123456')  # Send otp code
+# Find the OTP textbox locator and send default OTP code
+wait_for_otp = (By.CLASS_NAME, "otp-input")
 
-add_party_floating = driver.find_element(By.XPATH, '//android.view.View[@content-desc="New Party"]')
-add_party_floating.click()
+time.sleep(2)
+# Check whether user is on right page
+
+# assert self.driver.title == 'Enter OTP Code - Karobar', f'Expected Result: "Enter OTP Code - Karobar",
+# Actual Result: {self.driver.title}'
+
+# Find Continue button of OTP page
+driver.find_element(By.CLASS_NAME, 'button').click()
 time.sleep(2)
 
-# ok_contacts = driver.find_element(By.XPATH, '//android.widget.Button[@content-desc="OK"]')
-# ok_contacts.click()
-#
-# allow_permission = driver.find_element(By.ID, 'com.android.permissioncontroller:id/permission_allow_button')
-#
-# allow_permission.click()
+# Select admin account and click it
+driver.find_element(By.CLASS_NAME, "//*[text()='Admin']").click()
 time.sleep(2)
 
-add_partyname = driver.find_element(By.XPATH, '//android.view.View[@content-desc="PARTY INFORMATION Party Name Phone '
-                                              'Number Email Party Type"]/android.widget.EditText[1]')
+driver.get("https://web.karobarapp.com/parties")
+party = driver.find_element(By.XPATH, '//*[@id="app"]/div[2]/section[2]/div/div[1]/article/div[3]')
 
-add_partyname.click()
-add_partyname.send_keys('AutomateTestCase')
-time.sleep(2)
-new_party_save = driver.find_element(By.XPATH, '//android.widget.Button[@content-desc="Save"]')
+driver.execute_script("arguments[0].scrollIntoView();", party)
 
-new_party_save.click()
+# driver.execute_script("window.scrollBy(0, 1000)", "")
 
-listitems = []
+# flag = driver.find_element(By.XPATH, '//*[@id="content"]/div[2]/div[2]/table[2]/tbody/tr[23]/td[2]')
+# driver.execute_script("arguments[0].scrollIntoView();", flag)
+# print(flag.location_once_scrolled_into_view)
 
-element_list = driver.find_elements(By.XPATH, '//android.view.View')
+# driver.execute_script("window.scrollBy(0, document.body.scrollHeight)")
+driver.execute_script("document.querySelector('').scrollTop=500")
 
-for i in element_list:
-    listitems.append(element_list)
+time.sleep(5)
 
-print(listitems)
-
-
-# party_dashboard = driver.find_element(By.XPATH, "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout"
-#                                                 "/android.widget.FrameLayout/android.widget.FrameLayout/android"
-#                                                 ".widget.FrameLayout/android.view.View/android.view.View/android.view"
-#                                                 ".View/android.view.View/android.view.View["
-#                                                 "2]/android.widget.ScrollView/android.view.View[3]/android.view.View")
-#
-#
-# def swipe_party_dashboard():
-#     actions = ActionChains(driver)
-#     actions.w3c_actions = ActionBuilder(driver, mouse=PointerInput(interaction.POINTER_TOUCH, "touch"))
-#     actions.w3c_actions.pointer_action.move_to_location(336, 1049)
-#     actions.w3c_actions.pointer_action.pointer_down()
-#     actions.w3c_actions.pointer_action.move_to_location(336, 966)
-#     actions.w3c_actions.pointer_action.release()
-#     actions.perform()
-#
-#
-# lists = party_dashboard.find_elements(By.XPATH, '//android.view.View[@content-desc]')
-#
-# for i in lists:
-#     swipe_party_dashboard()
-#     print(i.get_attribute("content-desc"))
-# # swipe_party_dashboard(lists)
-#
-# # for i in range(3):
-# #     # party_list = (lists.get_attribute("content-desc").split())
-# #     #
-# #     # party_real = str(party_list[1]) + ' ' + str(party_list[2])
-# #     # print(party_real)
-#
-# dup_party = []
-# unique_party = []
-#
-# # for i in lists:
-# #     x = (i.get_attribute("content-desc").split())
-# #     party_real = (x[1] + " " + x[2])
-# #
-# #     if party_real not in unique_party:
-# #         unique_party.append(party_real)
-# #     else:
-# #         dup_party.append(party_real)
-# #
-# #     swipe_party_dashboard()
-# #     time.sleep(2)
-# #
-# # print(dup_party)
-# # print(unique_party)
+driver.quit()

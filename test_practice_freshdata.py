@@ -12,7 +12,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 import pytest
 
 # os.environ['PATH'] += r"D:\Drivers\chromedriver_win32"
-locationChromeDriver = "D:\Drivers\chromedriver_win32\chromedriver.exe"
+# locationChromeDriver = "D:\Drivers\chromedriver_win32\chromedriver.exe"
 baseUrl = 'https://web.karobarapp.com/login'
 num = '9333333333'
 otp = '123456'
@@ -31,8 +31,8 @@ def timee4():
 
 class web:
     def __init__(self):
-        serv_obj = Service(locationChromeDriver)
-        self.driver = webdriver.Chrome(service=serv_obj)
+        # serv_obj = Service(locationChromeDriver)
+        self.driver = webdriver.Chrome()
         self.driver.maximize_window()
 
     def by_xpath(self, locator):

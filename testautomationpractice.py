@@ -447,6 +447,14 @@ def writeInExcel():
     workbook.save(file)
 
 
+def excel1():
+    file = "filename"
+    workbook = openpyxl.load_workbook(file)
+    sheet = workbook['Sheetname']
+
+    one = sheet.cell(1, 1).value
+
+
 def xpath():
     driver.get("https://the-internet.herokuapp.com/challenging_dom")
     driver.maximize_window()
@@ -475,8 +483,26 @@ def database():
         print("Connection unsuccessfull...")
 
 
-database()
+def snackbar():
+    driver.get("https://web.karobarapp.com/login")
+    driver.find_element(By.XPATH, "//input[@placeholder='Enter your Phone Number']").send_keys("986072557.")
+    driver.find_element(By.XPATH, "//span[normalize-space()='Login to Continue']").click()
+    snackbar = driver.find_element(By.XPATH, "//div[@class='text']")
+    wait = WebDriverWait(driver, 10)
+    wait.until(EC.visibility_of_element_located(snackbar))
+    print(snackbar.text)
 
-time.sleep(3)
+
+def validaiton():
+    driver.get("https://web.karobarapp.com/login")
+    driver.find_element(By.XPATH, "//input[@placeholder='Enter your Phone Number']").send_keys("9")
+    driver.find_element(By.XPATH, "//span[normalize-space()='Login to Continue']").click()
+    snackbar = driver.find_element(By.XPATH, "//div[@class='form-error']//span").is_displayed()
+    print(snackbar)
+
+
+validaiton()
+
+time.sleep(1)
 driver.close()
 driver.quit()
